@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mech App API</title>
+    </head>
+    <body>
+        <h1>Hello Manufacturers!</h1>
+        <ul>
+            {% for manufacturer in manufacturers %}
+            <h2> {{ manufacturer.name }} </h2>
+            <ul>
+                {% for generator in manufacturer.generators %}
+                <li>
+                    {{ generator.generator_name }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

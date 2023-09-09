@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: "Mech App Rest API"
+  description: "An API about Generators"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+paths:
+  /manufacturers:
+    get:
+      operationId: "manufacturers.read_all"
+      tags:
+        - "Manufacturers"
+      summary: "Read the list of manufacturers"
+      responses:
+        "200":
+          description: "Successfully read the manufacturers list"
+    post:
+      operationId: "manufacturers.create"
+      tags:
+        -  Manufacturers
+      summary: "Create a manufacturer"
+      requestBody:
+        description: "Manufacturer to create"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "manufacturer"
+              $ref: "#/components/schemas/Manufacturer"
+      responses:
+        "201":
+          description: "Successfully created manufacturer"
+  /manufacturers/{name}:
+    get:
+      operationId: "manufacturers.read_one"
+      tags:
+        -  Manufacturers
+      summary: "Read One Manufacturer"
+      parameters:
+        -  $ref: "#/components/parameters/name"
+      responses:
+        "200":
+          description: "Successfully read Manufacturer"
+    put:
+      tags:
+        -  Manufacturers
+      operationId: "manufacturers.update"
+      summary: "Update a manufacturer"
+      parameters:
+        -  $ref: "#/components/parameters/name"
+      responses:
+        "200":
+          description: "Successfully updated Manufacturer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "manufacturer"
+              $ref: "#/components/schemas/Manufacturer"
+    delete:
+      tags:
+        - Manufacturers
+      operationId: "manufacturers.delete"
+      summary: "Delete a Manufacturer"
+      parameters:
+        -  $ref: "#/components/parameters/name"
+      responses:
+        "204":
+          description: "Successfully deleted Manufacturer"
+  /generators:
+    post:
+      operationId: "generators.create"
+      tags:
+        - Generators
+      summary: "Create a Generator associated with a Manufacturer"
+      requestBody:
+        description: "Generator to create"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "generator"
+              type: "object"
+              properties:
+                manufacturer_id:
+                  type: "integer"
+                generator_name:
+                  type: "string"
+      responses:
+        "201":
+          description: "Successfully Created a Generator"
+  /generators/{generator_id}:
+    get:
+      operationId: "generators.read_one"
+      tags:
+        - Generators
+      summary: "Read one Generator"
+      parameters:
+        -  $ref: "#/components/parameters/generator_id"
+      responses:
+        "200":
+          description: "Successfully read one Generator"
+    put:
+      operationId: "generators.update"
+      tags:
+        - Generators
+      summary: "Update a Generator"
+      parameters:
+        -  $ref: "#/components/parameters/generator_id"
+      responses:
+        "200":
+          description: "Successfully updated Generator"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "generator"
+              type: "object"
+              properties:
+                content:
+                  type: "string"
+    delete:
+      tags:
+        - Generators
+      operationId: "generators.delete"
+      summary: "Delete a Generator"
+      parameters:
+        -  $ref: "#/components/parameters/generator_id"
+      responses:
+        "204":
+          description: "Successfully deleted Generator"
+
+
+components:
+  schemas:
+    Manufacturer:
+      type: "object"
+      required:
+        - name
+      properties:
+        name:
+          type: "string"
+  parameters:
+    name:
+      name: "name"
+      description: "name of Manufacturer"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    generator_id:
+      name: "generator_id"
+      description: "ID of the Generator"
+      in: path
+      required: True
+      schema:
+        type: "integer"
