@@ -3,12 +3,29 @@ from config import db, ma
 from marshmallow_sqlalchemy import fields
 
 
+class Part(db.Model):
+    __tablename__ = "part"
+    id = db.Column(db.Integer, primary_key = True)
+    generator_id = db.Column(db.Integer, db.ForeignKey("generator.id"))
+    price = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable = False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 class Generator(db.Model):
     __tablename__ = "generator"
     id = db.Column(db.Integer, primary_key = True)
     manufacturer_id = db.Column(db.Integer, db.ForeignKey("manufacturer.id"))
     generator_name = db.Column(db.String, nullable=False)
     timestamp = db.Column(db.DateTime, default = datetime.utcnow, onupdate = datetime.utcnow)
+    parts = db.relationship(
+        Part,
+        backref = "generator",
+        cascade = "all, delete, delete-orphan",
+        single_parent = True,
+        order_by = "desc(Part.timestamp)"
+    ) 
+
 
 
 class GeneratorSchema(ma.SQLAlchemyAutoSchema):

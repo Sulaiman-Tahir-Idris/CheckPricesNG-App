@@ -13,6 +13,13 @@
                 {% for generator in manufacturer.generators %}
                 <li>
                     {{ generator.generator_name }}
+                    <ul>
+                        {% for part in generator.parts %}
+                        <li>
+                            {{ part.name }}
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </li>
                 {% endfor %}
             </ul>
