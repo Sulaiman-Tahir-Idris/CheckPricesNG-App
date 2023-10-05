@@ -133,6 +133,91 @@ paths:
         "204":
           description: "Successfully deleted Generator"
 
+  /parts:
+    post:
+      operationId: "parts.create"
+      tags:
+        - Parts
+      summary: "Create a Part associated with a Generator"
+      requestBody:
+        description: "Part to create"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "part"
+              type: "object"
+              properties:
+                generator_id:
+                  type: "integer"
+                name:
+                  type: "string"
+                price:
+                  type: "string"
+      responses:
+        "201":
+          description: "Successfully Created a Part"
+
+  /parts/{part_id}:
+    get:
+      operationId: "parts.read_one"
+      tags:
+        - Parts
+      summary: "Read one Part"
+      parameters:
+        -  $ref: "#/components/parameters/part_id"
+      responses:
+        "200":
+          description: "Successfully read one Part"
+    put:
+      operationId: "parts.update"
+      tags:
+        - Parts
+      summary: "Update a Part"
+      parameters:
+        -  $ref: "#/components/parameters/part_id"
+      responses:
+        "200":
+          description: "Successfully updated Part"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "part"
+              type: "object"
+              properties:
+                content:
+                  type: "string"
+    delete:
+      tags:
+        - Parts
+      operationId: "parts.delete"
+      summary: "Delete a Part"
+      parameters:
+        -  $ref: "#/components/parameters/part_id"
+      responses:
+        "204":
+          description: "Successfully deleted Part"
+          
+  # /parts/generator/{generator_id}:
+  # get:
+  #   operationId: "parts.read_for_generator"
+  #   tags:
+  #     - Parts
+  #   summary: "Read parts for a Generator"
+  #   parameters:
+  #     - name: generator_id
+  #       in: path
+  #       description: ID of the Generator
+  #       required: true
+  #       schema:
+  #         type: integer
+  #   responses:
+  #     "200":
+  #       description: "Successfully read parts for the Generator"
+
+
+
 
 components:
   schemas:
@@ -143,6 +228,39 @@ components:
       properties:
         name:
           type: "string"
+    Generator:
+      type: "object"
+      required:
+        - generator_name
+      properties:
+        generator_name:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        image_url:
+          type: "string"
+          format: "uri"
+
+    Part:
+      type: "object"
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: "string"
+        price:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        image_url:
+          type: "string"
+          format: "uri"
+        generator_id:
+          type: "integer"
+
   parameters:
     name:
       name: "name"
@@ -154,6 +272,13 @@ components:
     generator_id:
       name: "generator_id"
       description: "ID of the Generator"
+      in: path
+      required: True
+      schema:
+        type: "integer" 
+    part_id:
+      name: "part_id"
+      description: "ID of the Part"
       in: path
       required: True
       schema:

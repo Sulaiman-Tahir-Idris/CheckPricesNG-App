@@ -9,7 +9,15 @@ class Part(db.Model):
     generator_id = db.Column(db.Integer, db.ForeignKey("generator.id"))
     price = db.Column(db.String, nullable = False)
     name = db.Column(db.String, nullable = False)
+    image_url = db.Column(db.String)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class PartSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Part
+        load_instance = True
+        sqla_session = db.session
+        include_fk = True
 
 
 class Generator(db.Model):
@@ -17,6 +25,7 @@ class Generator(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     manufacturer_id = db.Column(db.Integer, db.ForeignKey("manufacturer.id"))
     generator_name = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String)
     timestamp = db.Column(db.DateTime, default = datetime.utcnow, onupdate = datetime.utcnow)
     parts = db.relationship(
         Part,
@@ -34,6 +43,8 @@ class GeneratorSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         sqla_session = db.session
         include_fk = True
+        include_relationships = True
+    parts = fields.Nested(PartSchema, many=True)
 
 
 class Manufacturer(db.Model):
@@ -58,6 +69,7 @@ class ManufacturerSchema(ma.SQLAlchemyAutoSchema):
         include_relationship = True
     generators = fields.Nested(GeneratorSchema, many = True)
 
+part_schema = PartSchema()
 generator_schema = GeneratorSchema()
 manufacturer_schema = ManufacturerSchema()
 manufacturers_schema = ManufacturerSchema(many = True)

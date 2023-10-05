@@ -1,0 +1,88 @@
+@include media-md {
+    .menu-btn {
+      visibility: hidden;
+    }
+  
+    .nav {
+      visibility: visible;
+  
+      .menu-nav {
+        display: block;
+        transform: translateY(0);
+        height: 100%;
+        background: transparent;
+        text-align: right;
+  
+        &__item {
+          display: inline;
+          padding-right: 1.5rem;
+        }
+  
+        &__link {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  
+    .generator__name {
+      font-size: 1.5rem;
+    }
+  
+    .parts {
+      &__part-image {
+        height: 40vh;
+      }
+      &__items {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .text-secondary {
+        font-size: 3rem;
+      }
+    }
+  
+    .contact__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @include media-lg {
+    .parts {
+      &__items {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+  }
+  
+  @include media-xl {
+    .parts__part-image {
+      height: 50vh;
+    }
+  }
+
+  @include media-sm {
+    .main {
+      margin: 1rem;
+      max-width: 350px;
+      width: 50%;
+      height: 250px;
+  }
+    .search-bar {
+      width: 80%;
+      height: 50px;
+      font-size: 13px;
+
+      button {
+        font-size: 13px;
+        text-transform: lowercase;
+        padding: 7px;
+        text-align: center;
+      }
+
+      #select {
+        margin-top: -2px;
+        margin-left: -2px;
+      }
+  }
+
+}
